@@ -1,0 +1,26 @@
+.note-box {
+  height: 84px;
+  width: 184px;
+  border: 3px solid black;
+  margin: 20px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.note-form {
+  margin: 20px;
+}
+
+.note-textarea {
+  /*margin-top: 20px;*/
+  height: 84px;
+  width: 200px;
+  border: 3px solid black;
+}
+
+.delete-button {
+  /*position: fixed;*/
+  left: 0;
+  bottom: 0;
+  margin-bottom: 0;
+}

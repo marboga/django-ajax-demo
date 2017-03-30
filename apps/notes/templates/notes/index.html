@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Notes app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'notes/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <marquee>This text shows us when the page reloads</marquee>
+    <h1>Notes</h1>
+    <div class="notes">
+      {% for note in notes %}
+        <div class="note-box">
+          <p>{{ note.text }}</p>
+          <a class="delete-button"
+            href="{% url 'notes:delete' note.id %}"
+            >remove
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <form class="note-form" action="{% url 'notes:create' %}" method="post">
+      {% csrf_token %}
+      <textarea name="text" class="note-textarea" rows="8" cols="80"></textarea>
+      <label for=""></label>
+      <input class="button-primary form-button" type="submit" name="" value="Post it!">
+    </form>
+
+  </body>
+</html>
