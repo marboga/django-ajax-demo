@@ -17,10 +17,11 @@ class NoteManager(models.Manager):
 
     def remove(self, id):
         id = int(id)
-        # try:
-        note = self.get(id=id)
-        note.delete()
-        # except:    
+        try:
+            note = self.get(id=id)
+            note.delete()
+        except:
+            pass
 
 
 class Note(models.Model):

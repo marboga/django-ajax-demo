@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
 from .models import Note
 
 # Create your views here.
@@ -20,9 +20,15 @@ def create(request):
         else:
             print 'new note created:', res
 
-    return redirect('notes:index')
+    return redirect('notes:partial')
 
 def delete(request, id):
     print 'in delete method, id= ', id
     Note.objects.remove(id)
-    return redirect('notes:index')
+    context = { 'notes': Note.objects.all() }
+    return render(request, 'notes/partial.html', context)
+
+def partial(request):
+    print "about to render partial"
+    context = { 'notes': Note.objects.all() }
+    return render(request, 'notes/partial.html', context)

@@ -7,16 +7,75 @@
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'notes/css/style.css' %}">
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        console.log('document is ready');
+
+        $('form').submit(function(e){
+          e.preventDefault();
+          console.log('form was submitted but won"t reload');
+          $.ajax({
+            method: "POST",
+            url: "/create",
+            data: $(this).serialize()
+          })
+          .done(function( response ){
+            console.log('response came back from the server >>>>>>>>>')
+            console.log(response);
+            $("#notes").html(response)
+          })
+        })
+
+        $('.delete-button').on('click', function(e){
+          e.preventDefault();
+          console.log("testing delete!")
+          console.log($(this).attr('href'))
+          $.ajax({
+            method: "GET",
+            url: $(this).attr('href')
+          })
+          .done(function( response ){
+            console.log('response came back from the server after delete >>>>>>>>>')
+            console.log(response);
+            $("#notes").html(response);
+
+            return false;
+          })
+          return false;
+        })
+
+        // function deleter(){
+        //   e.preventDefault();
+        //   console.log("testing delete!")
+        //   console.log($(this).attr('href'))
+        //   $.ajax({
+        //     method: "GET",
+        //     url: $(this).attr('href')
+        //   })
+        //   .done(function( response ){
+        //     console.log('response came back from the server after delete >>>>>>>>>')
+        //     console.log(response);
+        //     $("#notes").html(response);
+        //
+        //     // return false;
+        //   })
+        //   console.log("At the very end of deleter");
+        //   return false;
+        // }
+
+      })
+    </script>
   </head>
   <body>
     <marquee>This text shows us when the page reloads</marquee>
     <h1>Notes</h1>
-    <div class="notes">
+    <div id="notes">
       {% for note in notes %}
         <div class="note-box">
           <p>{{ note.text }}</p>
           <a class="delete-button"
-            href="{% url 'notes:delete' note.id %}"
+            data="{% url 'notes:delete' note.id %}"
+            href="#"
             >remove
           </a>
         </div>
@@ -29,6 +88,10 @@
       <label for=""></label>
       <input class="button-primary form-button" type="submit" name="" value="Post it!">
     </form>
+
+    {% for error in messages %}
+    <p>{{ error }}</p>
+    {% endfor %}
 
   </body>
 </html>

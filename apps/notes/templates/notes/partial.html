@@ -1,0 +1,10 @@
+{% for note in notes %}
+  <div class="note-box">
+    <p>{{ note.text }}</p>
+    <a class="delete-button"
+      data="{% url 'notes:delete' note.id %}"
+      href="#"
+      >remove
+    </a>
+  </div>
+{% endfor %}
